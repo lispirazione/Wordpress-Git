@@ -1,0 +1,57 @@
+
+1. Checar si el post tiene marcado o no el Key prop destacada.
+2. Si arroja positivo => Agregar una categoría especial que expira después de 30 días
+3. Obtener la hora actual cuando el post se convierte en destacado
+4. Cuando pasen 30 días hacer que el post ya no sea destacado
+
+http://www.smashingmagazine.com/2009/05/13/10-custom-fields-hacks-for-wordpress/
+PHP date(): Obtener día, mes, año y hora actual con PHP
+http://www.anerbarrena.com/php-date-1018/
+
+http://www.bufa.es/php-sumar-restar-dias-fecha/
+
+TIEMPO
+<?php
+$horaservidor = get_date_from_gmt($string, $format = 'd M y');
+
+$time = get_post_meta($post->ID, 'fechafinal', true);
+
+
+
+$nuevafecha = strtotime ( '+10 days' , strtotime ( $horaservidor ) ) ;
+$nuevafecha = date ( 'd M y hr' , $nuevafecha );
+update_post_meta($post->ID, 'fechafinal', $nuevafecha);
+ ?>
+
+
+META
+<?php
+    update_user_meta( 3, 'package_listings', 5 );
+    
+ ?>
+http://stackoverflow.com/questions/6646903/wordpress-update-post-meta-does-not-update-dynamic-values
+
+
+
+ACTUALIZAR CATEGORIA
+http://codex.wordpress.org/Function_Reference/wp_set_object_terms
+<?php
+wp_set_object_terms(  6516, 'propiedad-destacada', 'estatus_destacado', $append  = true); 
+
+wp_remove_object_terms(6516, 'propiedad-destacada', 'estatus_destacado', $append  = true);
+?>
+
+
+
+
+INFO USUARIO
+<?php
+function get_current_user_listings($userID){
+    $count  =   get_the_author_meta( 'package_listings' , $userID );
+    return $count;
+}
+
+$current  =   get_the_author_meta( 'package_listings' , $userID );
+update_user_meta( 3, 'package_listings', $current-1 );
+
+ ?>

@@ -1,0 +1,6 @@
+
+<?php if(ICL_LANGUAGE_CODE=='es') { 
+echo ’Texto español; } else {
+
+echo ‘Texto inglés; 
+}?>

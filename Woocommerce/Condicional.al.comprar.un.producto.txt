@@ -1,0 +1,37 @@
+add_action('woocommerce_payment_complete', 'custom_process_order', 10, 1);
+function custom_process_order($order_id) {
+    
+
+    $order = new WC_Order( $order_id );
+    $myuser_id = (int)$order->user_id;
+    $user_info = get_userdata($myuser_id);
+    $items = $order->get_items();
+    # get_item_count(mixed $type = '');
+    //Devuelve el número de paquetes disponibles
+    $current = get_the_author_meta( 'package_listings' , $myuser_id );
+    $current2  =   get_the_author_meta( 'package_featured_listings' , $myuser_id );
+    foreach ($items as $item) {
+    
+    /* PAQUETE +1 LISTADO */
+        if ($item['product_id']==6495) {
+          update_user_meta($myuser_id, 'package_listings', $current2 + 1); }
+          
+    /* PAQUETE +1 DESTACADO */
+        if ($item['product_id']==6567) {
+          update_user_meta($myuser_id, 'package_featured_listings', $current2 + 1); }
+        
+    /* PAQUETE PREMIUM */
+        if ($item['product_id']==6506) {
+          update_user_meta($myuser_id, 'package_listings', $current + 5); 
+          update_user_meta($myuser_id, 'package_featured_listings', $current2 + 2);
+        }
+    /* PAQUETE GOLD */
+        if ($item['product_id']==6459) {
+          update_user_meta($myuser_id, 'package_listings', $current + 21); 
+          update_user_meta($myuser_id, 'package_featured_listings', $current2 + 8); 
+        }
+        
+        
+    }
+    return $order_id;
+}

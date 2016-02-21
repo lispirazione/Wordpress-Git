@@ -1,0 +1,32 @@
+// Ensure cart contents update when products are added to the cart via AJAX
+add_filter( 'woocommerce_add_to_cart_fragments', 'woocommerce_header_add_to_cart_fragment' );
+function woocommerce_header_add_to_cart_fragment( $fragments ) {
+ob_start(); ?>
+
+<div id="cart_top_contents">
+	<div id="cart_icon"></div>
+	<span id="cart_items_no"><?php echo  WC()->cart->cart_contents_count; ?></span>
+	<div id="cart_text"> 
+            
+<h4 style="color:white;" class="txtproductos">
+    <?php
+        if ( WC()->cart->cart_contents_count < 1 ) 
+            { 
+            echo 'Agrega productos al cotizador';
+            
+            } else if ( WC()->cart->cart_contents_count == 1 ) { 
+                echo 'Producto para cotización'; 
+            } else { echo 'Productos para cotización'; }
+    ?>
+
+    <br/>Total 
+</h4>
+	</div>
+</div>
+        
+        
+	<?php
+	$fragments['#cart_top_contents'] = ob_get_clean();
+
+	return $fragments;
+}

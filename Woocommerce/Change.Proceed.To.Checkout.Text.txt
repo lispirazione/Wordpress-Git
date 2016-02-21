@@ -1,0 +1,9 @@
+/* Change Proceed To Checkout Text In WooCommerce */
+remove_action( 'woocommerce_proceed_to_checkout', 'woocommerce_button_proceed_to_checkout', 10 ); 
+add_action('woocommerce_proceed_to_checkout', 'ld_woo_custom_checkout_button_text');
+
+function ld_woo_custom_checkout_button_text() {
+    $checkout_url = WC()->cart->get_checkout_url();
+  
+       echo '<a href="'; $checkout_url;  echo '" class="checkout-button button alt wc-forward">';  _e( 'Cotizador', 'woocommerce' ); echo '</a>'; 
+    }
