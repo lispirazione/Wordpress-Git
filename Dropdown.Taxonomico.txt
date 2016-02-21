@@ -1,0 +1,35 @@
+<div id="categories">
+    <div class="buscadorProductos"></div>
+    <div class="listado-de-categorias"></div>
+    <p>Para realizar una búsqueda en el catálogo de nuestros productos usted puede escribir el parámetro de búsqueda que desee, seleccionar alguna de las categorías que aparecen en el listado o usar ambas opciones para realizar una búsqueda mas precisa.</p>
+    <?php 
+wp_dropdown_categories('show_option_none=Productos&show_count=1&hide_empty=0&show_option_all&depth=1&style=list&hierarchical=true&exclude=177,186,187,1'); ?>
+ 
+<script type="text/javascript">
+            <!--
+    var dropdown = document.getElementById("cat");
+    function onCatChange() {
+        if ( dropdown.options[dropdown.selectedIndex].value > 0 ) {
+            location.href = "<?php echo get_option('home');
+?>/?cat="+dropdown.options[dropdown.selectedIndex].value;
+        }
+    }
+    dropdown.onchange = onCatChange;
+-->
+</script>
+
+
+
+<div class="busqueda-abierta"></div>
+    
+<form role="search" method="get" class="buscador-form2" action="<?php echo home_url( '/' ); ?>">
+	<label>
+
+	<input type="search" class="search-field2" placeholder="Buscar..." value="" name="s" title="Buscar:" />
+	</label>
+	<input type="submit" class="search-submit2" value="Realizar búsqueda" />
+</form>
+    
+    
+    
+</div>

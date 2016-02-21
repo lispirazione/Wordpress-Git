@@ -1,0 +1,18 @@
+Primer paso: crear una posición de menú nueva.
+
+Antes que nada nos hace falta crear una nueva posición de menú. Para ello abriremos el fichero functions.php y añadiremos al final del fichero el siguiente código:
+
+if (function_exists('register_nav_menu')) {
+    register_nav_menu('menu-principal', 'Menú principal');
+}
+
+
+
+
+
+
+
+
+Para mostrar esta posición del menú lo que hay que hacer es llamarla con la siguiente función:
+
+<?php wp_nav_menu( array( 'theme_location' => 'menu-principal' ) ); ?>

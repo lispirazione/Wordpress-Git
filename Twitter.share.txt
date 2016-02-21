@@ -1,0 +1,2 @@
+             <a class="shareTwitt" target="_blank" title="Comparte en Twitter!" href="http://twitter.com/home?status=Visitando <?php permalink_link(); ?>"></a>
+                <a class="shareFB"></a>

@@ -1,0 +1,11 @@
+<li id="categories">
+	<form action="<?php bloginfo('url'); ?>/" method="get">
+	<div>
+<?php
+$select = wp_dropdown_categories('show_option_none=TODAS&show_count=1&orderby=name&echo=0&hierarchical=1');
+$select = preg_replace("#<select([^>]*)>#", "<select$1 onchange='return this.form.submit()'>", $select);
+echo $select;
+?>
+	<noscript><div><input type="submit" value="View" /></div></noscript>
+	</div></form>
+</li>

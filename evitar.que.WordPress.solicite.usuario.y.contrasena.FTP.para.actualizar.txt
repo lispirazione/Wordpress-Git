@@ -1,0 +1,9 @@
+Lo que tienes que hacer es abrir tu archivo “wp-config.php” y agregar el siguiente código.
+
+Código para evitar que WordPress solicite usuario y contraseña FTP para actualizar.
+
+
+// ** AJUSTES FTP PARA ACTUALIZACIONES ** //
+define('FTP_HOST', 'tudomino.com');
+define('FTP_USER', 'tu-usuario');
+define('FTP_PASS', 'tu-contraseña');

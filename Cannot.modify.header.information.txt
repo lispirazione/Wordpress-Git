@@ -1,0 +1,7 @@
+se soluciona con incluir las siguientes llamadas en el inicio y fin del código respectivamente, después de la etiqueta de inicio de php y antes de la de cierre de php:
+
+<?php
+ob_start();
+
+ob_end_flush();
+?>
