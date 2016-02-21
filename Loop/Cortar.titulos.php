@@ -1,0 +1,1 @@
+<?php if (strlen($post->post_title) > 20) { echo substr(the_title($before = '', $after = '', FALSE), 0, 20) . '...'; } else { the_title(); } ?>
