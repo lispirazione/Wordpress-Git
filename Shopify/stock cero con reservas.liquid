@@ -1,0 +1,35 @@
+
+
+
+
+
+
+
+*************************************
+
+
+{% assign variantQuantity = product.variants | map: 'inventory_quantity' | sort %}
+{% if variantQuantity[0] < 1 %}
+  <div class="related-stock">PARA PRODUCTOS PERSONALIZADOS, EL TIEMPO DE FABRICACION DE 28 A 45 DIAS</div>
+{% else %}
+ PRODUCTO DISPONIBLE
+{% endif %}
+      
+
+*************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

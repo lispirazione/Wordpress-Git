@@ -1,0 +1,48 @@
+
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+ </head>
+
+  <body class="template-{{ request.page_type }} sidebar-{{ settings.homepage_sidebar }} {% if settings.banner_radius %}banner-radius{% endif %} kala-7.0.10"> 
+  
+
+
+
+*************************************
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Verificar si es un dispositivo móvil
+    if (window.innerWidth <= 767) { // Puedes ajustar este valor según tus necesidades
+        // Obtener el elemento y agregar la clase "open"
+        var accordion = document.querySelector('.footer__information-accordion');
+        accordion.classList.add('open');
+
+        var contentDiv = document.querySelector('.accordion__content.footer-block__details-content');
+        contentDiv.style.display = 'block';
+
+      
+    }
+});
+
+</script>
+
+
+    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

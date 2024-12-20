@@ -1,0 +1,11 @@
+
+
+
+JQuery - $ is not defined
+https://stackoverflow.com/questions/2194992/jquery-is-not-defined
+
+
+
+$(document).ready(function () {
+  //YOUR JQUERY CODE
+});

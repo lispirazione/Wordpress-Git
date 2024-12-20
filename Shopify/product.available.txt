@@ -1,0 +1,112 @@
+
+
+https://community.shopify.com/c/Shopify-Design/Check-if-any-of-the-product-s-variants-are-in-stock-via-liquid/td-p/193131
+
+
+
+
+{% if product.available %}
+
+<div class="related-stock">Ships Today!</div>
+
+{% else %}
+
+{% endif %}
+
+
+
+
+
+
+
+
+
+f you want to count the total quantity available for a product, you'll have to loop through all of its variants.
+
+{% assign product_qty = 0 %}
+{% for variant in product.variants %}
+  {% if variant.inventory_quantity > 0 %}
+    {% assign product_qty = product_qty | plus: variant.inventory_quantity %}
+  {% endif %}
+{% endfor %}
+
+{% if product_qty > 0 %}
+We currently have <b>{{ product_qty }}</b> in stock.
+{% else %}
+In Stock Soon. Usually Ships in 3-5 Business Days. 
+{% endif %}
+
+
+
+*************************************
+
+
+<script>
+  var selectCallback = function(variant, selector) {
+
+    var quantity = 1,
+        totalPrice;
+    if (variant) {
+      console.log(quantity);
+      if (variant.available) {
+        // Selected a valid variant that is available.
+        $('#AddToCart').removeClass('disabled').removeAttr('disabled').val('Add to Cart').fadeTo(200,1);
+        $('#AddToCart span').html('Añadir al carrito');
+      } else {
+        // Variant is sold out.
+        $('#AddToCart').val('Sold Out').addClass('disabled').attr('disabled', 'disabled').fadeTo(200,0.5);
+        $('#AddToCart span').html('Agotado');
+      }
+      	quantity = parseInt($('#Quantity').val(), 10);
+        totalPrice = variant.price * quantity;
+        
+        if ( variant.compare_at_price > variant.price ) {
+          $('.enj-product-price').html('<span class="br-product__price">'+ Shopify.formatMoney(variant.price, window.money_format) + '<del>'+Shopify.formatMoney(variant.compare_at_price, window.money_format)+ '</del>' +'</span>');
+          $('#ProductPrice').html('<span class="br-product__price engoj_price_main">'+ Shopify.formatMoney(totalPrice, window.money_format) + '</span>');
+        } else {
+          $('.enj-product-price').html('<span class="br-product__price">'+ Shopify.formatMoney(variant.price, window.money_format) + '</span>');
+          $('#ProductPrice').html('<span class="br-product__price engoj_price_main">'+ Shopify.formatMoney(totalPrice, window.money_format) + '</span>' );
+        }
+                                  
+    } else {
+      // variant doesn't exist.
+      $('#AddToCart').val('Unavailable').addClass('disabled').attr('disabled', 'disabled').fadeTo(200,0.5);
+    }
+  }
+  jQuery(function($) {
+    new Shopify.OptionSelectors('productSelect', {
+      product: {{ product | json }},
+      onVariantSelected: selectCallback,
+      enableHistoryState: true
+    });
+
+    // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+    {% if product.options.size == 1 and product.options.first != 'Title' %}
+      $('.selector-wrapper:eq(0)').prepend('<label for="productSelect-option-0">{{ product.options.first | escape }}</label>');
+    {% endif %}
+
+    // Hide selectors if we only have 1 variant and its title contains 'Default'.
+    {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+      $('.selector-wrapper').hide();
+    {% endif %}
+  });
+</script>
+
+
+*************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

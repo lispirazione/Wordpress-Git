@@ -1,0 +1,67 @@
+
+// TRUE FALSE
+
+{% if collection.metafields.custom.ocultar_bannercoleccion == true %} 
+
+<style type="text/css">
+/* Ocultar banner */
+.page-header-nb {
+	display: none;
+}
+</style>
+  
+{% endif %}
+
+
+
+
+{% if product.metafields.botonplayera.botonplayera or product.metafields.txtbotonplayera.txtbotonplayera != blank %}
+<div class="btnplayera">
+  <a href="{{product.metafields.btnplayera.btnplayera}}" target="_self">
+    {{product.metafields.txtbotonplayera.txtbotonplayera}}
+  </a>
+</div>
+{% endif  %}
+
+
+//  ACCEDER Y MOSTRAR METAFIELD DE UNA COLECCION EN UNA PLANTILLA DE PRODUCTO
+
+{% for collection in product.collections %}
+    {% unless collection.metafields.custom.color_coleccion == blank %}
+      {{ collection.metafields.custom.color_coleccion }}
+      {% break %}
+    {% endunless %}
+{% endfor %}
+
+
+
+// METAFIELD , CON URL DE IMAGEN
+ <img src="{{ collection.metafields.custom.banner | asset_url }}" alt="{{ product.title }}" />
+
+
+
+// SI UN PRODUCTO ESTA EN UNA COLECCION, AGREGAR UN CSS DINAMICO CON METAFIELDS
+
+{% for collection in product.collections %}
+    {% unless collection.metafields.custom.color_coleccion == blank %}
+{% style %}
+  :root {
+  	--gradient-base-accent-1: {{ collection.metafields.custom.color_coleccion }}
+  }
+  .color-inverse, .colordefondo {
+    background-color: {{ collection.metafields.custom.color_coleccion }}
+  }
+{% endstyle %}
+      {% break %}
+    {% endunless %}
+{% endfor %}
+
+
+
+
+// MOSTRAR METAFIELD DE UNA COLECCION EN TODAS LAS COLECCIONES 
+// https://shopify.dev/api/liquid/objects/collections
+
+{% for collection in collections %}
+  {{ collection.metafields.custom.textoencoleccion   }}
+{% endfor %}

@@ -1,0 +1,45 @@
+
+
+
+https://shopify.dev/docs/themes/liquid/reference/basics/operators
+
+
+
+{% if customer.has_account == true %}
+  Welcome back to our store!
+{% endif %}
+
+
+{% if product.type == "Shirt" or product.type == "Shoes" %}
+  This is a shirt or a shoe.
+{% endif %}
+
+
+
+{% if customer.email contains "shopify.com" %}
+  Hey there, Shopify employee!
+{% endif %}
+
+
+
+
+{% if product.tags contains "outdoor" %}
+  This product is great for using outdoors!
+{% endif %}
+
+
+{% if true or false and false %}
+  This evaluates to true, since the 'and' condition is checked first.
+{% endif %}
+
+
+
+{% if true and false and false or true %}
+  This evaluates to false, since the tags are checked like this:
+
+  true and (false and (false or true))
+  true and (false and true)
+  true and false
+  false
+{% endif %}
+

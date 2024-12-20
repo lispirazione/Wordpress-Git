@@ -1,0 +1,67 @@
+
+<style>
+
+/****************************
+  FOOTER
+****************************/
+.shop-logo a img {
+	width: 100%;
+	max-width: 100px;
+}
+.footerstyle-2 .footer-information-wrapper .row {
+	padding-top: 10px !important;
+	padding-bottom: 10px !important;
+}
+.footer-main-wrapper {padding-bottom: 20px;}
+
+/* MAYUSCULAS */
+.footer__linklist-menu .list-menu__item--link {text-transform: uppercase;}
+
+/* OCULTA PIN LOGO FOOTER */
+#shopify-section-theme-footer1 > div > div.footer-main-wrapper > div > div > div > accordion-component > div:nth-child(1) > div.footer__information-accordion.accordion.d-block.d-lg-none.open > div > div.footer__list-info > div > .svg-icon {
+    display: none;
+}
+
+/* CENTRAR LOGO */
+div.footer__information:nth-child(1) > div:nth-child(1) .content {
+	text-align: center;
+}
+div.footer__information:nth-child(1) > div:nth-child(1)  .svg-icon {
+  display: none;
+}
+
+
+
+</style>
+
+
+*************************************
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Selecciona todos los elementos que deseas abrir al cargar
+    const accordions = document.querySelectorAll('div.footer__information:nth-child(1) > div:nth-child(1)');
+
+    // Asegúrate de que el contenido esté visible
+    accordions.forEach(accordion => {
+      const content = accordion.querySelector('.accordion__content');
+      if (content) {
+        content.style.display = 'block';
+      }
+    });
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

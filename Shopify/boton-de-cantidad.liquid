@@ -1,0 +1,56 @@
+<div class="quantity">
+ 
+          <div class="qtybox">
+            <span class="btnqty qtyminus icon">-</span>
+            <input type="text" id="Quantity" name="quantity" value="1" min="1" class="quantity-selector quantity-input" readonly="">
+            <span class="btnqty qtyplus icon">+</span>
+          </div>
+</div>  
+  
+
+
+
+
+<script>
+$('.qtybox .btnqty').on('click', function(){
+  var qty = parseInt($(this).parent('.qtybox').find('.quantity-input').val());
+  if($(this).hasClass('qtyplus')) {
+    qty++;
+  }else {
+    if(qty > 1) {
+      qty--;
+    }
+  }
+  qty = (isNaN(qty))?1:qty;
+  $(this).parent('.qtybox').find('.quantity-input').val(qty);
+});
+</script>
+
+
+
+
+<style type="text/css">
+.quantity {
+  padding-top: 0;
+}
+
+.quantity label{display: block;margin-bottom: 12px;letter-spacing: 2.8px;color: #747a7b;}
+.quantity .btnqty{display: inline-block;cursor: pointer;user-select: none;font-size: 25px;padding: 5px;line-height: 5px;}
+.quantity .btnqty.qtyminus{margin-right: 8px;}
+.quantity .btnqty.qtyplus{margin-left: 8px;}
+.quantity .quantity-input{border: none;border: none;padding: 8px;text-align: center;width: 50px;outline: none;display: inline-block;}
+.quantity {display: inline-block;padding-right: 15px;padding-top: 10px;}
+
+.quantity .qtybox {
+  font-weight: 700;
+  display: inline-block;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+  border: 1px solid #eeeeee;
+  font-size: 16px;
+  margin: 0 0px 0 0;
+  position: relative;
+  padding: 0.2em 0.2em 0 0;
+  
+}
+</style>

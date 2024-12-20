@@ -1,0 +1,31 @@
+
+
+<!-- Añade este código donde desees que aparezca el botón "Comprar Ahora" en tu plantilla de producto -->
+<form id="buy-now-form" action="/cart/add" method="post">
+  <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+  <button type="submit" class="btn btn--full add-to-cart" id="buy-now-button">Comprar Ahora</button>
+</form>
+
+<!-- JavaScript para redirigir al checkout -->
+<script>
+  document.getElementById('buy-now-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var form = event.target;
+    var formData = new FormData(form);
+    
+    fetch('/cart/add.js', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      window.location.href = '/checkout';
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  });
+</script>
