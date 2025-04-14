@@ -1,0 +1,45 @@
+
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+
+# ===== PROTECCIÓN SEGURA PARA THEMES/PLUGINS =====
+# 1. Bloquea SOLO archivos .php en /themes/ (excepto funciones del core)
+<FilesMatch "\.(php)$">
+    <IfModule mod_authz_core.c>
+        # Permite archivos críticos de WordPress
+        <If "%{REQUEST_URI} =~ m#/wp-admin/|/wp-includes/|/wp-content/plugins/#">
+            Require all granted
+        </If>
+        # Permite AJAX, cron y otros esenciales
+        <ElseIf "%{REQUEST_URI} =~ m#(wp-cron\.php|admin-ajax\.php|xmlrpc\.php)#">
+            Require all granted
+        </ElseIf>
+        # Bloquea TODO lo demás en /themes/ (incluye archivos PHP)
+        <ElseIf "%{REQUEST_URI} =~ m#/wp-content/themes/[^/]+/.*\.php#">
+            Require all denied
+        </ElseIf>
+    </IfModule>
+</FilesMatch>
+
+# 2. Protección extra para wp-config.php (opcional)
+<Files "wp-config.php">
+    Require all denied
+</Files>
+
+# 3. Permite archivos estáticos (CSS, JS, imágenes)
+<FilesMatch "\.(css|js|jpg|jpeg|png|gif|svg|woff2)$">
+  Require all granted
+</FilesMatch>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# This domain inherits the “PHP” package.
+# php -- END cPanel-generated handler, do not edit
