@@ -26,7 +26,7 @@
             color: #333;
         }
         
-        .jet-map-container {
+        .mapa-container {
             display: flex;
             max-width: 1200px;
             margin: 20px auto;
@@ -35,7 +35,7 @@
             overflow: hidden;
         }
         
-        .jet-map-categories {
+        .categorias-mapa {
             width: 300px;
             background-color: white;
             padding: 20px;
@@ -44,7 +44,7 @@
             max-height: 600px;
         }
         
-        .jet-map-categories h2 {
+        .categorias-mapa h2 {
             color: var(--primary-color);
             margin-bottom: 20px;
             font-size: 1.5rem;
@@ -52,11 +52,11 @@
             padding-bottom: 10px;
         }
         
-        .jet-map-category-group {
+        .categoria-grupo {
             margin-bottom: 25px;
         }
         
-        .jet-map-category-group h3 {
+        .categoria-grupo h3 {
             font-size: 1.1rem;
             color: var(--primary-color);
             margin-bottom: 10px;
@@ -64,7 +64,7 @@
             border-bottom: 1px solid var(--border-color);
         }
         
-        .jet-map-category-item {
+        .categoria-item {
             display: flex;
             align-items: center;
             padding: 8px 10px;
@@ -74,16 +74,16 @@
             transition: background-color 0.2s;
         }
         
-        .jet-map-category-item:hover {
+        .categoria-item:hover {
             background-color: var(--light-gray);
         }
         
-        .jet-map-category-item.active {
+        .categoria-item.activa {
             background-color: var(--secondary-color);
             color: white;
         }
         
-        .jet-map-category-icon {
+        .categoria-icono {
             width: 24px;
             height: 24px;
             margin-right: 10px;
@@ -95,22 +95,22 @@
             font-size: 12px;
         }
         
-        .jet-map-category-item.active .jet-map-category-icon {
+        .categoria-item.activa .categoria-icono {
             background-color: rgba(255, 255, 255, 0.3);
         }
         
-        .jet-map-visualization {
+        .mapa-visualizacion {
             flex: 1;
             height: 600px;
             position: relative;
         }
         
-        #jet-map-main {
+        #mapa-marcas {
             width: 100%;
             height: 100%;
         }
         
-        .jet-map-controls {
+        .mapa-controls {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -121,7 +121,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         
-        .jet-map-controls button {
+        .mapa-controls button {
             background: var(--secondary-color);
             color: white;
             border: none;
@@ -131,12 +131,25 @@
             margin-left: 5px;
         }
         
-        .jet-map-controls button:hover {
+        .mapa-controls button:hover {
             background: #2980b9;
         }
         
+        .mapa-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1001;
+            text-align: center;
+        }
+        
         /* Estilos para los marcadores personalizados */
-        .jet-map-custom-marker {
+        .marcador-personalizado {
             background: white;
             border-radius: 50%;
             width: 40px;
@@ -148,28 +161,28 @@
             border: 2px solid var(--secondary-color);
         }
         
-        .jet-map-custom-marker img {
+        .marcador-personalizado img {
             width: 24px;
             height: 24px;
             object-fit: contain;
         }
         
         /* Popup personalizado */
-        .jet-map-custom-popup {
+        .popup-personalizado {
             min-width: 200px;
         }
         
-        .jet-map-custom-popup h3 {
+        .popup-personalizado h3 {
             color: var(--primary-color);
             margin-bottom: 5px;
         }
         
-        .jet-map-custom-popup p {
+        .popup-personalizado p {
             margin-bottom: 5px;
             font-size: 0.9rem;
         }
         
-        .jet-map-custom-popup .category {
+        .popup-personalizado .categoria {
             display: inline-block;
             background: var(--secondary-color);
             color: white;
@@ -180,146 +193,146 @@
         }
         
         @media (max-width: 768px) {
-            .jet-map-container {
+            .mapa-container {
                 flex-direction: column;
             }
             
-            .jet-map-categories {
+            .categorias-mapa {
                 width: 100%;
                 max-height: 200px;
                 border-right: none;
                 border-bottom: 1px solid var(--border-color);
             }
             
-            .jet-map-visualization {
+            .mapa-visualizacion {
                 height: 400px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="jet-map-container">
-        <div class="jet-map-categories">
+    <div class="mapa-container">
+        <div class="categorias-mapa">
             <h2>Marcas y Tiendas</h2>
             
-            <div class="jet-map-category-group">
+            <div class="categoria-grupo">
                 <h3>Marcas</h3>
-                <div class="jet-map-category-item" data-category="marca">
-                    <div class="jet-map-category-icon">M</div>
+                <div class="categoria-item" data-categoria="marca">
+                    <div class="categoria-icono">M</div>
                     <span>Sinhotik Beauty</span>
                 </div>
-                <div class="jet-map-category-item" data-category="marca">
-                    <div class="jet-map-category-icon">M</div>
+                <div class="categoria-item" data-categoria="marca">
+                    <div class="categoria-icono">M</div>
                     <span>Ice Shaker</span>
                 </div>
-                <div class="jet-map-category-item" data-category="marca">
-                    <div class="jet-map-category-icon">M</div>
+                <div class="categoria-item" data-categoria="marca">
+                    <div class="categoria-icono">M</div>
                     <span>Scrub Daddy</span>
                 </div>
-                <div class="jet-map-category-item active" data-category="marca">
-                    <div class="jet-map-category-icon">M</div>
+                <div class="categoria-item activa" data-categoria="marca">
+                    <div class="categoria-icono">M</div>
                     <span>CIF</span>
                 </div>
-                <div class="jet-map-category-item" data-category="marca">
-                    <div class="jet-map-category-icon">M</div>
+                <div class="categoria-item" data-categoria="marca">
+                    <div class="categoria-icono">M</div>
                     <span>Prime 6</span>
                 </div>
-                <div class="jet-map-category-item" data-category="marca">
-                    <div class="jet-map-category-icon">M</div>
+                <div class="categoria-item" data-categoria="marca">
+                    <div class="categoria-icono">M</div>
                     <span>Oct. 2015</span>
                 </div>
             </div>
             
-            <div class="jet-map-category-group">
+            <div class="categoria-grupo">
                 <h3>Tiendas</h3>
-                <div class="jet-map-category-item" data-category="tienda">
-                    <div class="jet-map-category-icon">T</div>
+                <div class="categoria-item" data-categoria="tienda">
+                    <div class="categoria-icono">T</div>
                     <span>Departamentales</span>
                 </div>
-                <div class="jet-map-category-item" data-category="tienda">
-                    <div class="jet-map-category-icon">T</div>
+                <div class="categoria-item" data-categoria="tienda">
+                    <div class="categoria-icono">T</div>
                     <span>Supermercados</span>
                 </div>
-                <div class="jet-map-category-item" data-category="tienda">
-                    <div class="jet-map-category-icon">T</div>
+                <div class="categoria-item" data-categoria="tienda">
+                    <div class="categoria-icono">T</div>
                     <span>Conveniencia</span>
                 </div>
-                <div class="jet-map-category-item" data-category="tienda">
-                    <div class="jet-map-category-icon">T</div>
+                <div class="categoria-item" data-categoria="tienda">
+                    <div class="categoria-icono">T</div>
                     <span>Oficina y Papelería</span>
                 </div>
-                <div class="jet-map-category-item" data-category="tienda">
-                    <div class="jet-map-category-icon">T</div>
+                <div class="categoria-item" data-categoria="tienda">
+                    <div class="categoria-icono">T</div>
                     <span>Hogar y Negocios</span>
                 </div>
-                <div class="jet-map-category-item" data-category="tienda">
-                    <div class="jet-map-category-icon">T</div>
+                <div class="categoria-item" data-categoria="tienda">
+                    <div class="categoria-icono">T</div>
                     <span>Dollar Store</span>
                 </div>
-                <div class="jet-map-category-item" data-category="tienda">
-                    <div class="jet-map-category-icon">T</div>
+                <div class="categoria-item" data-categoria="tienda">
+                    <div class="categoria-icono">T</div>
                     <span>Vice clientes</span>
                 </div>
             </div>
             
-            <div class="jet-map-category-group">
+            <div class="categoria-grupo">
                 <h3>Otras Marcas</h3>
-                <div class="jet-map-category-item" data-category="otra">
-                    <div class="jet-map-category-icon">O</div>
+                <div class="categoria-item" data-categoria="otra">
+                    <div class="categoria-icono">O</div>
                     <span>Pitzer</span>
                 </div>
-                <div class="jet-map-category-item" data-category="otra">
-                    <div class="jet-map-category-icon">O</div>
+                <div class="categoria-item" data-categoria="otra">
+                    <div class="categoria-icono">O</div>
                     <span>Nescafé</span>
                 </div>
-                <div class="jet-map-category-item" data-category="otra">
-                    <div class="jet-map-category-icon">O</div>
+                <div class="categoria-item" data-categoria="otra">
+                    <div class="categoria-icono">O</div>
                     <span>Selección Mexicana</span>
                 </div>
-                <div class="jet-map-category-item" data-category="otra">
-                    <div class="jet-map-category-icon">O</div>
+                <div class="categoria-item" data-categoria="otra">
+                    <div class="categoria-icono">O</div>
                     <span>Tienda UNAM</span>
                 </div>
-                <div class="jet-map-category-item" data-category="otra">
-                    <div class="jet-map-category-icon">O</div>
+                <div class="categoria-item" data-categoria="otra">
+                    <div class="categoria-icono">O</div>
                     <span>Bonafont</span>
                 </div>
-                <div class="jet-map-category-item" data-category="otra">
-                    <div class="jet-map-category-icon">O</div>
+                <div class="categoria-item" data-categoria="otra">
+                    <div class="categoria-icono">O</div>
                     <span>Bayer</span>
                 </div>
-                <div class="jet-map-category-item" data-category="otra">
-                    <div class="jet-map-category-icon">O</div>
+                <div class="categoria-item" data-categoria="otra">
+                    <div class="categoria-icono">O</div>
                     <span>Puribe</span>
                 </div>
-                <div class="jet-map-category-item" data-category="otra">
-                    <div class="jet-map-category-icon">O</div>
+                <div class="categoria-item" data-categoria="otra">
+                    <div class="categoria-icono">O</div>
                     <span>El Sótano</span>
                 </div>
-                <div class="jet-map-category-item" data-category="otra">
-                    <div class="jet-map-category-icon">O</div>
+                <div class="categoria-item" data-categoria="otra">
+                    <div class="categoria-icono">O</div>
                     <span>Muebles América</span>
                 </div>
-                <div class="jet-map-category-item" data-category="otra">
-                    <div class="jet-map-category-icon">O</div>
+                <div class="categoria-item" data-categoria="otra">
+                    <div class="categoria-icono">O</div>
                     <span>Weber</span>
                 </div>
-                <div class="jet-map-category-item" data-category="otra">
-                    <div class="jet-map-category-icon">O</div>
+                <div class="categoria-item" data-categoria="otra">
+                    <div class="categoria-icono">O</div>
                     <span>Super Farmacia</span>
                 </div>
-                <div class="jet-map-category-item" data-category="otra">
-                    <div class="jet-map-category-icon">O</div>
+                <div class="categoria-item" data-categoria="otra">
+                    <div class="categoria-icono">O</div>
                     <span>Nutrisa</span>
                 </div>
             </div>
         </div>
         
-        <div class="jet-map-visualization">
-            <div id="jet-map-main"></div>
-            <div class="jet-map-controls">
-                <button id="jet-map-show-all">Mostrar Todos</button>
-                <button id="jet-map-clear">Limpiar</button>
+        <div class="mapa-visualizacion">
+            <div id="mapa-marcas"></div>
+            <div class="mapa-controls">
+                <button id="btn-mostrar-todos">Mostrar Todos</button>
+                <button id="btn-limpiar">Limpiar</button>
             </div>
         </div>
     </div>
@@ -327,158 +340,345 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Inicializar el mapa
-        const jetMap = L.map('jet-map-main').setView([19.4326, -99.1332], 12); // Ciudad de México
+        const mapa = L.map('mapa-marcas').setView([19.4326, -99.1332], 12);
         
         // Añadir capa de tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(jetMap);
-        
-        // Datos de ejemplo para los puntos del mapa (simulando datos de WordPress)
-        // En un caso real, estos datos vendrían de una consulta AJAX a la API de WordPress
-        const jetMapPoints = [
-            {
-                id: 1,
-                name: "Sinhotik Beauty",
-                category: "marca",
-                latitude: 19.4326,
-                longitude: -99.1332,
-                address: "Av. Paseo de la Reforma 123",
-                custom_icon: "💄", // Este vendría del custom field icono_marca
-                maptype: "marca" // Esta sería la taxonomía maptype
-            },
-            {
-                id: 2,
-                name: "Ice Shaker",
-                category: "marca",
-                latitude: 19.4350,
-                longitude: -99.1400,
-                address: "Calle Insurgentes 456",
-                custom_icon: "🥤",
-                maptype: "marca"
-            },
-            {
-                id: 3,
-                name: "Scrub Daddy",
-                category: "marca",
-                latitude: 19.4280,
-                longitude: -99.1270,
-                address: "Av. Chapultepec 789",
-                custom_icon: "🧽",
-                maptype: "marca"
-            },
-            {
-                id: 4,
-                name: "CIF",
-                category: "marca",
-                latitude: 19.4370,
-                longitude: -99.1200,
-                address: "Calle Durango 321",
-                custom_icon: "🧴",
-                maptype: "marca"
-            },
-            {
-                id: 5,
-                name: "Departamentales",
-                category: "tienda",
-                latitude: 19.4400,
-                longitude: -99.1250,
-                address: "Plaza del Sol",
-                custom_icon: "🏬",
-                maptype: "tienda"
-            },
-            {
-                id: 6,
-                name: "Supermercados",
-                category: "tienda",
-                latitude: 19.4300,
-                longitude: -99.1450,
-                address: "Centro Comercial Perisur",
-                custom_icon: "🛒",
-                maptype: "tienda"
-            },
-            {
-                id: 7,
-                name: "Nescafé",
-                category: "otra",
-                latitude: 19.4200,
-                longitude: -99.1300,
-                address: "Av. Universidad 987",
-                custom_icon: "☕",
-                maptype: "otra"
-            },
-            {
-                id: 8,
-                name: "Bonafont",
-                category: "otra",
-                latitude: 19.4380,
-                longitude: -99.1380,
-                address: "Calle Oaxaca 654",
-                custom_icon: "💧",
-                maptype: "otra"
-            }
-        ];
+        }).addTo(mapa);
         
         // Capa para agrupar los marcadores
-        const jetMapMarkersLayer = L.layerGroup().addTo(jetMap);
+        const capaMarcadores = L.layerGroup().addTo(mapa);
         
         // Función para crear marcadores personalizados
-        function createJetMapMarker(point) {
+        function crearMarcador(punto) {
             // Crear elemento HTML personalizado para el marcador
-            const customIcon = L.divIcon({
-                className: 'jet-map-custom-marker',
-                html: `<div style="font-size: 20px;">${point.custom_icon}</div>`,
+            const elementoIcono = L.divIcon({
+                className: 'marcador-personalizado',
+                html: `<div style="font-size: 20px;">${punto.custom_icon}</div>`,
                 iconSize: [40, 40],
                 iconAnchor: [20, 20]
             });
             
             // Crear el marcador
-            const marker = L.marker([point.latitude, point.longitude], { icon: customIcon });
+            const marcador = L.marker([punto.latitude, punto.longitude], { icon: elementoIcono });
             
             // Añadir popup
-            marker.bindPopup(`
-                <div class="jet-map-custom-popup">
-                    <h3>${point.name}</h3>
-                    <p>${point.address}</p>
-                    <span class="category">${point.category}</span>
+            marcador.bindPopup(`
+                <div class="popup-personalizado">
+                    <h3>${punto.name}</h3>
+                    <p>${punto.address}</p>
+                    <span class="categoria">${punto.category}</span>
                 </div>
             `);
             
-            return marker;
+            return marcador;
+        }
+
+        // Función para descubrir el custom post type correcto
+        async function descubrirCPT() {
+            const posiblesCPT = ['puntos', 'jet-map', 'locations', 'map-points', 'punto', 'ubicaciones'];
+            
+            for (const cpt of posiblesCPT) {
+                try {
+                    const response = await fetch(`/wp-json/wp/v2/${cpt}?per_page=1`);
+                    if (response.ok) {
+                        console.log(`✓ CPT encontrado: ${cpt}`);
+                        return cpt;
+                    }
+                } catch (error) {
+                    console.log(`✗ CPT no válido: ${cpt}`);
+                }
+            }
+            
+            return null;
+        }
+
+        // Función para cargar TODOS los posts con paginación
+        async function fetchAllPosts() {
+            // Mostrar loading
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'mapa-loading';
+            loadingDiv.innerHTML = 'Buscando puntos del mapa...';
+            document.querySelector('.mapa-visualizacion').appendChild(loadingDiv);
+
+            try {
+                // Primero descubrir el CPT correcto
+                loadingDiv.innerHTML = 'Descubriendo tipo de contenido...';
+                const cpt = await descubrirCPT();
+                
+                if (!cpt) {
+                    throw new Error('No se pudo encontrar el custom post type');
+                }
+
+                loadingDiv.innerHTML = `Cargando datos desde ${cpt}...`;
+                
+                let allPosts = [];
+                let page = 1;
+                let totalPages = 1;
+
+                do {
+                    // Incluir todos los campos posibles para debug
+                    const response = await fetch(`/wp-json/wp/v2/${cpt}?per_page=100&page=${page}&_fields=id,title,meta,maptype,categories,acf,jet_engine_location,location,ubicacion`);
+                    
+                    if (!response.ok) {
+                        throw new Error(`Error HTTP: ${response.status}`);
+                    }
+
+                    const posts = await response.json();
+                    allPosts = allPosts.concat(posts);
+
+                    // Leer total de páginas desde los headers
+                    const totalPagesHeader = response.headers.get('x-wp-totalpages');
+                    totalPages = parseInt(totalPagesHeader, 10) || 1;
+                    
+                    loadingDiv.innerHTML = `Cargando datos desde ${cpt}... (${allPosts.length} posts)`;
+                    page++;
+                    
+                    // Pequeña pausa para no sobrecargar el servidor
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                } while (page <= totalPages);
+
+                console.log(`Cargados ${allPosts.length} posts en total desde ${cpt}`);
+                
+                // Mostrar la estructura completa del primer post para debug
+                if (allPosts.length > 0) {
+                    console.log('=== ESTRUCTURA COMPLETA DEL PRIMER POST ===');
+                    console.log('Post completo:', allPosts[0]);
+                    console.log('Meta field:', allPosts[0].meta);
+                    console.log('Keys del meta:', Object.keys(allPosts[0].meta));
+                    
+                    // Mostrar todos los campos del meta
+                    for (const key in allPosts[0].meta) {
+                        console.log(`Meta.${key}:`, allPosts[0].meta[key]);
+                    }
+                }
+
+                // Procesar todos los posts
+                procesarPostsEnMapa(allPosts, cpt);
+                
+            } catch (error) {
+                console.error('Error cargando datos del mapa:', error);
+                
+                // Cargar datos de ejemplo si falla la API
+                cargarDatosEjemplo();
+                loadingDiv.innerHTML = 'Usando datos de ejemplo - ' + error.message;
+                
+            } finally {
+                // Ocultar loading después de 3 segundos
+                setTimeout(() => {
+                    loadingDiv.remove();
+                }, 3000);
+            }
+        }
+
+        // Función para extraer ubicación de diferentes formatos de JetEngine
+        function extraerUbicacion(meta) {
+            if (!meta) return null;
+            
+            console.log('Buscando ubicación en meta:', meta);
+            
+            // Diferentes formatos que JetEngine puede usar:
+            
+            // 1. Formato directo con lat/lng
+            if (meta.lat && meta.lng) {
+                return { lat: meta.lat, lng: meta.lng };
+            }
+            
+            // 2. Formato con coordenadas en campos separados
+            if (meta.latitude && meta.longitude) {
+                return { lat: meta.latitude, lng: meta.longitude };
+            }
+            
+            // 3. Formato JSON stringificado
+            for (const key in meta) {
+                if (typeof meta[key] === 'string') {
+                    try {
+                        const parsed = JSON.parse(meta[key]);
+                        if (parsed.lat && parsed.lng) {
+                            return parsed;
+                        }
+                        if (parsed.latitude && parsed.longitude) {
+                            return { lat: parsed.latitude, lng: parsed.longitude };
+                        }
+                    } catch (e) {
+                        // No es JSON válido
+                    }
+                }
+            }
+            
+            // 4. Formato _jet_engine_location
+            if (meta._jet_engine_location) {
+                const location = meta._jet_engine_location;
+                if (typeof location === 'string') {
+                    try {
+                        const parsed = JSON.parse(location);
+                        if (parsed.lat && parsed.lng) return parsed;
+                    } catch (e) {
+                        // No es JSON
+                    }
+                } else if (location.lat && location.lng) {
+                    return location;
+                }
+            }
+            
+            // 5. Buscar cualquier campo que contenga "location" o "ubicacion"
+            for (const key in meta) {
+                if (key.toLowerCase().includes('location') || key.toLowerCase().includes('ubicacion')) {
+                    const location = meta[key];
+                    if (typeof location === 'string') {
+                        try {
+                            const parsed = JSON.parse(location);
+                            if (parsed.lat && parsed.lng) return parsed;
+                        } catch (e) {
+                            // No es JSON
+                        }
+                    } else if (location && location.lat && location.lng) {
+                        return location;
+                    }
+                }
+            }
+            
+            return null;
+        }
+
+        // Función para procesar los posts y agregarlos al mapa
+        function procesarPostsEnMapa(posts, cpt) {
+            let puntosProcesados = 0;
+            
+            posts.forEach((post, index) => {
+                // Solo mostrar debug para los primeros 3 posts para no saturar la consola
+                if (index < 3) {
+                    console.log(`=== Procesando post ${index + 1} ===`);
+                    console.log('Post ID:', post.id);
+                    console.log('Título:', post.title?.rendered || post.title);
+                    console.log('Meta completo:', post.meta);
+                }
+                
+                // Extraer ubicación usando nuestra función mejorada
+                const location = extraerUbicacion(post.meta);
+                
+                if (index < 3) {
+                    console.log('Ubicación extraída:', location);
+                }
+                
+                // Obtener la taxonomía/categoría
+                let mainMaptype = 'default';
+                if (post.maptype && post.maptype.length > 0) {
+                    mainMaptype = post.maptype[0];
+                } else if (post.categories && post.categories.length > 0) {
+                    mainMaptype = post.categories[0];
+                }
+                
+                // Obtener el icono personalizado
+                const customIcon = (post.meta && post.meta.icono_marca) || '📍';
+                
+                // Crear el punto en el mapa si tiene ubicación válida
+                if (location && location.lat && location.lng) {
+                    const punto = {
+                        id: post.id,
+                        name: post.title?.rendered || post.title || 'Sin nombre',
+                        category: mainMaptype,
+                        latitude: parseFloat(location.lat),
+                        longitude: parseFloat(location.lng),
+                        address: (post.meta && post.meta.address) || '',
+                        custom_icon: customIcon,
+                        maptype: mainMaptype
+                    };
+                    
+                    const marcador = crearMarcador(punto);
+                    marcador.addTo(capaMarcadores);
+                    marcador._categoria = mainMaptype;
+                    marcador._id = post.id;
+                    
+                    puntosProcesados++;
+                    
+                    if (index < 3) {
+                        console.log('✓ Punto agregado al mapa:', punto);
+                    }
+                } else if (index < 3) {
+                    console.log('✗ No se pudo extraer ubicación válida');
+                }
+            });
+            
+            console.log(`Procesados ${puntosProcesados} puntos en el mapa`);
+            
+            // Ajustar el zoom para mostrar todos los marcadores
+            if (capaMarcadores.getLayers().length > 0) {
+                const group = new L.featureGroup(capaMarcadores.getLayers());
+                mapa.fitBounds(group.getBounds().pad(0.1));
+                console.log('✓ Mapa ajustado para mostrar todos los puntos');
+            } else {
+                console.log('✗ No se encontraron puntos con ubicación válida');
+                console.log('=== INSTRUCCIONES PARA DEBUG ===');
+                console.log('1. Revisa la consola para ver la estructura del campo "meta"');
+                console.log('2. Identifica cómo se almacena la ubicación en tus posts');
+                console.log('3. Comparte la estructura del campo meta para ajustar el código');
+            }
+        }
+
+        // Función para cargar datos de ejemplo si falla la API
+        function cargarDatosEjemplo() {
+            const puntosEjemplo = [
+                {
+                    id: 1,
+                    name: "Sinhotik Beauty",
+                    category: "marca",
+                    latitude: 19.4326,
+                    longitude: -99.1332,
+                    address: "Av. Paseo de la Reforma 123",
+                    custom_icon: "💄",
+                    maptype: "marca"
+                },
+                {
+                    id: 2,
+                    name: "Ice Shaker",
+                    category: "marca",
+                    latitude: 19.4350,
+                    longitude: -99.1400,
+                    address: "Calle Insurgentes 456",
+                    custom_icon: "🥤",
+                    maptype: "marca"
+                }
+            ];
+            
+            puntosEjemplo.forEach(punto => {
+                const marcador = crearMarcador(punto);
+                marcador.addTo(capaMarcadores);
+                marcador._categoria = punto.maptype;
+                marcador._id = punto.id;
+            });
+            
+            // Ajustar el zoom para mostrar todos los marcadores
+            if (capaMarcadores.getLayers().length > 0) {
+                const group = new L.featureGroup(capaMarcadores.getLayers());
+                mapa.fitBounds(group.getBounds().pad(0.1));
+            }
         }
         
-        // Añadir todos los puntos al mapa
-        jetMapPoints.forEach(point => {
-            const marker = createJetMapMarker(point);
-            marker.addTo(jetMapMarkersLayer);
-            // Guardar la categoría en el marcador para filtrar después
-            marker._jetMapCategory = point.maptype;
-            marker._jetMapId = point.id;
-        });
-        
         // Funcionalidad de filtrado por categoría
-        const jetMapCategoryItems = document.querySelectorAll('.jet-map-category-item');
+        const elementosCategoria = document.querySelectorAll('.categoria-item');
         
-        jetMapCategoryItems.forEach(item => {
-            item.addEventListener('click', function() {
-                // Remover clase active de todos los elementos
-                jetMapCategoryItems.forEach(el => el.classList.remove('active'));
+        elementosCategoria.forEach(elemento => {
+            elemento.addEventListener('click', function() {
+                // Remover clase activa de todos los elementos
+                elementosCategoria.forEach(el => el.classList.remove('activa'));
                 
-                // Añadir clase active al elemento clickeado
-                this.classList.add('active');
+                // Añadir clase activa al elemento clickeado
+                this.classList.add('activa');
                 
                 // Obtener la categoría seleccionada
-                const selectedCategory = this.getAttribute('data-category');
+                const categoriaSeleccionada = this.getAttribute('data-categoria');
                 
                 // Filtrar marcadores
-                jetMapMarkersLayer.eachLayer(marker => {
-                    if (selectedCategory === 'todos' || marker._jetMapCategory === selectedCategory) {
-                        if (!jetMap.hasLayer(marker)) {
-                            marker.addTo(jetMap);
+                capaMarcadores.eachLayer(marcador => {
+                    if (categoriaSeleccionada === 'todos' || marcador._categoria === categoriaSeleccionada) {
+                        if (!mapa.hasLayer(marcador)) {
+                            marcador.addTo(mapa);
                         }
                     } else {
-                        if (jetMap.hasLayer(marker)) {
-                            jetMap.removeLayer(marker);
+                        if (mapa.hasLayer(marcador)) {
+                            mapa.removeLayer(marcador);
                         }
                     }
                 });
@@ -486,77 +686,31 @@
         });
         
         // Botón para mostrar todos los puntos
-        document.getElementById('jet-map-show-all').addEventListener('click', function() {
-            jetMapMarkersLayer.eachLayer(marker => {
-                if (!jetMap.hasLayer(marker)) {
-                    marker.addTo(jetMap);
+        document.getElementById('btn-mostrar-todos').addEventListener('click', function() {
+            capaMarcadores.eachLayer(marcador => {
+                if (!mapa.hasLayer(marcador)) {
+                    marcador.addTo(mapa);
                 }
             });
             
             // Actualizar estado de categorías
-            jetMapCategoryItems.forEach(el => el.classList.remove('active'));
+            elementosCategoria.forEach(el => el.classList.remove('activa'));
         });
         
         // Botón para limpiar el mapa
-        document.getElementById('jet-map-clear').addEventListener('click', function() {
-            jetMapMarkersLayer.eachLayer(marker => {
-                if (jetMap.hasLayer(marker)) {
-                    jetMap.removeLayer(marker);
+        document.getElementById('btn-limpiar').addEventListener('click', function() {
+            capaMarcadores.eachLayer(marcador => {
+                if (mapa.hasLayer(marcador)) {
+                    mapa.removeLayer(marcador);
                 }
             });
             
             // Actualizar estado de categorías
-            jetMapCategoryItems.forEach(el => el.classList.remove('active'));
+            elementosCategoria.forEach(el => el.classList.remove('activa'));
         });
         
-        // Código para integrar con WordPress (comentado ya que no se puede ejecutar aquí)
-        /*
-        // Función para cargar datos desde WordPress
-        function loadJetMapData() {
-            // Hacer una petición AJAX a la API de WordPress
-            fetch('/wp-json/wp/v2/jet-map?per_page=100')
-                .then(response => response.json())
-                .then(posts => {
-                    // Procesar cada post
-                    posts.forEach(post => {
-                        // Obtener la ubicación (debería ser un campo personalizado)
-                        const location = post.meta.location; // Ajustar según la estructura real
-                        
-                        // Obtener la taxonomía maptype
-                        const maptypeTerms = post['maptype'] || [];
-                        const mainMaptype = maptypeTerms.length > 0 ? maptypeTerms[0] : 'default';
-                        
-                        // Obtener el icono personalizado
-                        const customIcon = post.meta.icono_marca || '📍'; // Valor por defecto
-                        
-                        // Crear el punto en el mapa
-                        if (location && location.lat && location.lng) {
-                            const point = {
-                                id: post.id,
-                                name: post.title.rendered,
-                                category: mainMaptype,
-                                latitude: parseFloat(location.lat),
-                                longitude: parseFloat(location.lng),
-                                address: post.meta.address || '',
-                                custom_icon: customIcon,
-                                maptype: mainMaptype
-                            };
-                            
-                            const marker = createJetMapMarker(point);
-                            marker.addTo(jetMapMarkersLayer);
-                            marker._jetMapCategory = mainMaptype;
-                            marker._jetMapId = post.id;
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error('Error cargando datos del mapa:', error);
-                });
-        }
-        
         // Cargar datos cuando el documento esté listo
-        document.addEventListener('DOMContentLoaded', loadJetMapData);
-        */
+        document.addEventListener('DOMContentLoaded', fetchAllPosts);
     </script>
 </body>
 </html>
