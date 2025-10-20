@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Interactivo de Marcas y Tiendas</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-gray: #f5f5f5;
+            --border-color: #ddd;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        
+        .jet-map-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 20px auto;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .jet-map-categories {
+            width: 300px;
+            background-color: white;
+            padding: 20px;
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            max-height: 600px;
+        }
+        
+        .jet-map-categories h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+        
+        .jet-map-category-group {
+            margin-bottom: 25px;
+        }
+        
+        .jet-map-category-group h3 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .jet-map-category-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .jet-map-category-item:hover {
+            background-color: var(--light-gray);
+        }
+        
+        .jet-map-category-item.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .jet-map-category-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            font-size: 12px;
+        }
+        
+        .jet-map-category-item.active .jet-map-category-icon {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .jet-map-visualization {
+            flex: 1;
+            height: 600px;
+            position: relative;
+        }
+        
+        #jet-map-main {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .jet-map-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .jet-map-controls button {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        
+        .jet-map-controls button:hover {
+            background: #2980b9;
+        }
+        
+        /* Estilos para los marcadores personalizados */
+        .jet-map-custom-marker {
+            background: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 2px solid var(--secondary-color);
+        }
+        
+        .jet-map-custom-marker img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+        
+        /* Popup personalizado */
+        .jet-map-custom-popup {
+            min-width: 200px;
+        }
+        
+        .jet-map-custom-popup h3 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .jet-map-custom-popup p {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .jet-map-custom-popup .category {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .jet-map-container {
+                flex-direction: column;
+            }
+            
+            .jet-map-categories {
+                width: 100%;
+                max-height: 200px;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .jet-map-visualization {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="jet-map-container">
+        <div class="jet-map-categories">
+            <h2>Marcas y Tiendas</h2>
+            
+            <div class="jet-map-category-group">
+                <h3>Marcas</h3>
+                <div class="jet-map-category-item" data-category="marca">
+                    <div class="jet-map-category-icon">M</div>
+                    <span>Sinhotik Beauty</span>
+                </div>
+                <div class="jet-map-category-item" data-category="marca">
+                    <div class="jet-map-category-icon">M</div>
+                    <span>Ice Shaker</span>
+                </div>
+                <div class="jet-map-category-item" data-category="marca">
+                    <div class="jet-map-category-icon">M</div>
+                    <span>Scrub Daddy</span>
+                </div>
+                <div class="jet-map-category-item active" data-category="marca">
+                    <div class="jet-map-category-icon">M</div>
+                    <span>CIF</span>
+                </div>
+                <div class="jet-map-category-item" data-category="marca">
+                    <div class="jet-map-category-icon">M</div>
+                    <span>Prime 6</span>
+                </div>
+                <div class="jet-map-category-item" data-category="marca">
+                    <div class="jet-map-category-icon">M</div>
+                    <span>Oct. 2015</span>
+                </div>
+            </div>
+            
+            <div class="jet-map-category-group">
+                <h3>Tiendas</h3>
+                <div class="jet-map-category-item" data-category="tienda">
+                    <div class="jet-map-category-icon">T</div>
+                    <span>Departamentales</span>
+                </div>
+                <div class="jet-map-category-item" data-category="tienda">
+                    <div class="jet-map-category-icon">T</div>
+                    <span>Supermercados</span>
+                </div>
+                <div class="jet-map-category-item" data-category="tienda">
+                    <div class="jet-map-category-icon">T</div>
+                    <span>Conveniencia</span>
+                </div>
+                <div class="jet-map-category-item" data-category="tienda">
+                    <div class="jet-map-category-icon">T</div>
+                    <span>Oficina y Papelería</span>
+                </div>
+                <div class="jet-map-category-item" data-category="tienda">
+                    <div class="jet-map-category-icon">T</div>
+                    <span>Hogar y Negocios</span>
+                </div>
+                <div class="jet-map-category-item" data-category="tienda">
+                    <div class="jet-map-category-icon">T</div>
+                    <span>Dollar Store</span>
+                </div>
+                <div class="jet-map-category-item" data-category="tienda">
+                    <div class="jet-map-category-icon">T</div>
+                    <span>Vice clientes</span>
+                </div>
+            </div>
+            
+            <div class="jet-map-category-group">
+                <h3>Otras Marcas</h3>
+                <div class="jet-map-category-item" data-category="otra">
+                    <div class="jet-map-category-icon">O</div>
+                    <span>Pitzer</span>
+                </div>
+                <div class="jet-map-category-item" data-category="otra">
+                    <div class="jet-map-category-icon">O</div>
+                    <span>Nescafé</span>
+                </div>
+                <div class="jet-map-category-item" data-category="otra">
+                    <div class="jet-map-category-icon">O</div>
+                    <span>Selección Mexicana</span>
+                </div>
+                <div class="jet-map-category-item" data-category="otra">
+                    <div class="jet-map-category-icon">O</div>
+                    <span>Tienda UNAM</span>
+                </div>
+                <div class="jet-map-category-item" data-category="otra">
+                    <div class="jet-map-category-icon">O</div>
+                    <span>Bonafont</span>
+                </div>
+                <div class="jet-map-category-item" data-category="otra">
+                    <div class="jet-map-category-icon">O</div>
+                    <span>Bayer</span>
+                </div>
+                <div class="jet-map-category-item" data-category="otra">
+                    <div class="jet-map-category-icon">O</div>
+                    <span>Puribe</span>
+                </div>
+                <div class="jet-map-category-item" data-category="otra">
+                    <div class="jet-map-category-icon">O</div>
+                    <span>El Sótano</span>
+                </div>
+                <div class="jet-map-category-item" data-category="otra">
+                    <div class="jet-map-category-icon">O</div>
+                    <span>Muebles América</span>
+                </div>
+                <div class="jet-map-category-item" data-category="otra">
+                    <div class="jet-map-category-icon">O</div>
+                    <span>Weber</span>
+                </div>
+                <div class="jet-map-category-item" data-category="otra">
+                    <div class="jet-map-category-icon">O</div>
+                    <span>Super Farmacia</span>
+                </div>
+                <div class="jet-map-category-item" data-category="otra">
+                    <div class="jet-map-category-icon">O</div>
+                    <span>Nutrisa</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="jet-map-visualization">
+            <div id="jet-map-main"></div>
+            <div class="jet-map-controls">
+                <button id="jet-map-show-all">Mostrar Todos</button>
+                <button id="jet-map-clear">Limpiar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Inicializar el mapa
+        const jetMap = L.map('jet-map-main').setView([19.4326, -99.1332], 12); // Ciudad de México
+        
+        // Añadir capa de tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(jetMap);
+        
+        // Datos de ejemplo para los puntos del mapa (simulando datos de WordPress)
+        // En un caso real, estos datos vendrían de una consulta AJAX a la API de WordPress
+        const jetMapPoints = [
+            {
+                id: 1,
+                name: "Sinhotik Beauty",
+                category: "marca",
+                latitude: 19.4326,
+                longitude: -99.1332,
+                address: "Av. Paseo de la Reforma 123",
+                custom_icon: "💄", // Este vendría del custom field icono_marca
+                maptype: "marca" // Esta sería la taxonomía maptype
+            },
+            {
+                id: 2,
+                name: "Ice Shaker",
+                category: "marca",
+                latitude: 19.4350,
+                longitude: -99.1400,
+                address: "Calle Insurgentes 456",
+                custom_icon: "🥤",
+                maptype: "marca"
+            },
+            {
+                id: 3,
+                name: "Scrub Daddy",
+                category: "marca",
+                latitude: 19.4280,
+                longitude: -99.1270,
+                address: "Av. Chapultepec 789",
+                custom_icon: "🧽",
+                maptype: "marca"
+            },
+            {
+                id: 4,
+                name: "CIF",
+                category: "marca",
+                latitude: 19.4370,
+                longitude: -99.1200,
+                address: "Calle Durango 321",
+                custom_icon: "🧴",
+                maptype: "marca"
+            },
+            {
+                id: 5,
+                name: "Departamentales",
+                category: "tienda",
+                latitude: 19.4400,
+                longitude: -99.1250,
+                address: "Plaza del Sol",
+                custom_icon: "🏬",
+                maptype: "tienda"
+            },
+            {
+                id: 6,
+                name: "Supermercados",
+                category: "tienda",
+                latitude: 19.4300,
+                longitude: -99.1450,
+                address: "Centro Comercial Perisur",
+                custom_icon: "🛒",
+                maptype: "tienda"
+            },
+            {
+                id: 7,
+                name: "Nescafé",
+                category: "otra",
+                latitude: 19.4200,
+                longitude: -99.1300,
+                address: "Av. Universidad 987",
+                custom_icon: "☕",
+                maptype: "otra"
+            },
+            {
+                id: 8,
+                name: "Bonafont",
+                category: "otra",
+                latitude: 19.4380,
+                longitude: -99.1380,
+                address: "Calle Oaxaca 654",
+                custom_icon: "💧",
+                maptype: "otra"
+            }
+        ];
+        
+        // Capa para agrupar los marcadores
+        const jetMapMarkersLayer = L.layerGroup().addTo(jetMap);
+        
+        // Función para crear marcadores personalizados
+        function createJetMapMarker(point) {
+            // Crear elemento HTML personalizado para el marcador
+            const customIcon = L.divIcon({
+                className: 'jet-map-custom-marker',
+                html: `<div style="font-size: 20px;">${point.custom_icon}</div>`,
+                iconSize: [40, 40],
+                iconAnchor: [20, 20]
+            });
+            
+            // Crear el marcador
+            const marker = L.marker([point.latitude, point.longitude], { icon: customIcon });
+            
+            // Añadir popup
+            marker.bindPopup(`
+                <div class="jet-map-custom-popup">
+                    <h3>${point.name}</h3>
+                    <p>${point.address}</p>
+                    <span class="category">${point.category}</span>
+                </div>
+            `);
+            
+            return marker;
+        }
+        
+        // Añadir todos los puntos al mapa
+        jetMapPoints.forEach(point => {
+            const marker = createJetMapMarker(point);
+            marker.addTo(jetMapMarkersLayer);
+            // Guardar la categoría en el marcador para filtrar después
+            marker._jetMapCategory = point.maptype;
+            marker._jetMapId = point.id;
+        });
+        
+        // Funcionalidad de filtrado por categoría
+        const jetMapCategoryItems = document.querySelectorAll('.jet-map-category-item');
+        
+        jetMapCategoryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Remover clase active de todos los elementos
+                jetMapCategoryItems.forEach(el => el.classList.remove('active'));
+                
+                // Añadir clase active al elemento clickeado
+                this.classList.add('active');
+                
+                // Obtener la categoría seleccionada
+                const selectedCategory = this.getAttribute('data-category');
+                
+                // Filtrar marcadores
+                jetMapMarkersLayer.eachLayer(marker => {
+                    if (selectedCategory === 'todos' || marker._jetMapCategory === selectedCategory) {
+                        if (!jetMap.hasLayer(marker)) {
+                            marker.addTo(jetMap);
+                        }
+                    } else {
+                        if (jetMap.hasLayer(marker)) {
+                            jetMap.removeLayer(marker);
+                        }
+                    }
+                });
+            });
+        });
+        
+        // Botón para mostrar todos los puntos
+        document.getElementById('jet-map-show-all').addEventListener('click', function() {
+            jetMapMarkersLayer.eachLayer(marker => {
+                if (!jetMap.hasLayer(marker)) {
+                    marker.addTo(jetMap);
+                }
+            });
+            
+            // Actualizar estado de categorías
+            jetMapCategoryItems.forEach(el => el.classList.remove('active'));
+        });
+        
+        // Botón para limpiar el mapa
+        document.getElementById('jet-map-clear').addEventListener('click', function() {
+            jetMapMarkersLayer.eachLayer(marker => {
+                if (jetMap.hasLayer(marker)) {
+                    jetMap.removeLayer(marker);
+                }
+            });
+            
+            // Actualizar estado de categorías
+            jetMapCategoryItems.forEach(el => el.classList.remove('active'));
+        });
+        
+        // Código para integrar con WordPress (comentado ya que no se puede ejecutar aquí)
+        /*
+        // Función para cargar datos desde WordPress
+        function loadJetMapData() {
+            // Hacer una petición AJAX a la API de WordPress
+            fetch('/wp-json/wp/v2/jet-map?per_page=100')
+                .then(response => response.json())
+                .then(posts => {
+                    // Procesar cada post
+                    posts.forEach(post => {
+                        // Obtener la ubicación (debería ser un campo personalizado)
+                        const location = post.meta.location; // Ajustar según la estructura real
+                        
+                        // Obtener la taxonomía maptype
+                        const maptypeTerms = post['maptype'] || [];
+                        const mainMaptype = maptypeTerms.length > 0 ? maptypeTerms[0] : 'default';
+                        
+                        // Obtener el icono personalizado
+                        const customIcon = post.meta.icono_marca || '📍'; // Valor por defecto
+                        
+                        // Crear el punto en el mapa
+                        if (location && location.lat && location.lng) {
+                            const point = {
+                                id: post.id,
+                                name: post.title.rendered,
+                                category: mainMaptype,
+                                latitude: parseFloat(location.lat),
+                                longitude: parseFloat(location.lng),
+                                address: post.meta.address || '',
+                                custom_icon: customIcon,
+                                maptype: mainMaptype
+                            };
+                            
+                            const marker = createJetMapMarker(point);
+                            marker.addTo(jetMapMarkersLayer);
+                            marker._jetMapCategory = mainMaptype;
+                            marker._jetMapId = post.id;
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error cargando datos del mapa:', error);
+                });
+        }
+        
+        // Cargar datos cuando el documento esté listo
+        document.addEventListener('DOMContentLoaded', loadJetMapData);
+        */
+    </script>
+</body>
+</html>
