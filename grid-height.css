@@ -1,0 +1,44 @@
+/* 📐 Solución CSS para Alturas Iguales */ 
+
+/*
+ * 1. Anular el posicionamiento de Isotope para que Flexbox/Grid tome el control
+ */
+.tlp-portfolio-isotope {
+    /* Es crucial eliminar el posicionamiento absoluto que calcula el plugin */
+    position: relative !important;
+    height: auto !important; /* Permitir que la altura la defina el contenido (Flexbox) */
+    
+    /* Activar Flexbox */
+    display: flex;
+    flex-wrap: wrap; /* Para que los ítems se envuelvan en filas */
+    align-items: stretch; /* ESTO HACE QUE TODOS LOS HIJOS TENGAN LA MISMA ALTURA */
+}
+
+/*
+ * 2. Asegurar que los ítems hijos se comporten como columnas de Flexbox.
+ */
+.tlp-portfolio-isotope .tlp-single-item {
+    /* Importante: Eliminar las posiciones absolutas en los hijos */
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+
+    /* Asegurar que el contenido interno se estire para llenar la altura (en el siguiente paso) */
+    display: flex;
+}
+
+/* * 3. Asegurar que el contenido dentro del ítem se estire verticalmente
+ * para que el fondo se vea uniforme si aplicas bordes o fondos.
+ */
+.tlp-portfolio-isotope .tlp-single-item .tlp-portfolio-item {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* El contenido interno ocupa el 100% de la altura de su padre (.tlp-single-item) */
+    width: 100%; /* Asegurar que ocupe todo el ancho de su columna asignada */
+}
+
+/* Opcional: Centrar el contenido de texto si es necesario */
+.tlp-portfolio-isotope .tlp-single-item .tlp-content {
+    /* Esto asegura que el área de contenido se estire para empujar el footer hacia abajo si existe */
+    flex-grow: 1; 
+}
