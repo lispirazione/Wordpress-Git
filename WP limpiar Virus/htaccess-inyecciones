@@ -1,0 +1,39 @@
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+
+# ==================================================================
+# SEGURIDAD CORREGIDA - SIN BLOQUEO DE ADMIN
+# ==================================================================
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# --- 1. BLOQUEO DE PHP EN LA RAIZ (WHITELIST) ---
+# Si el archivo termina en .php
+RewriteCond %{REQUEST_URI} \.php$ [NC]
+# Y NO está dentro de las carpetas legítimas de WP (admin, content, includes)
+RewriteCond %{REQUEST_URI} !^/(wp-admin|wp-includes|wp-content)/ [NC]
+# Y NO es uno de los archivos permitidos de la raíz (index, login, etc)
+RewriteCond %{REQUEST_URI} !^/(index|wp-login|wp-signup|wp-activate|wp-blog-header|wp-comments-post|wp-cron|wp-links-opml|wp-mail|wp-trackback|xmlrpc)\.php$ [NC]
+# ENTONCES: Bloquear acceso (Forbidden 403)
+RewriteRule .* - [F,L]
+
+# --- 2. PROTECCIÓN WP-CONFIG (Directa) ---
+<Files wp-config.php>
+    Require all denied
+</Files>
+
+# --- 3. BLOQUEAR EJECUCIÓN PHP EN UPLOADS ---
+# Esto protege que no suban virus a la carpeta de imagenes
+RewriteRule ^wp-content/uploads/.*\.(php|phtml|php5)$ - [F,L]
+
+</IfModule>
