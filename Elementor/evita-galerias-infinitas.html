@@ -1,0 +1,14 @@
+<script>
+window.addEventListener('load', function() {
+    if (typeof jQuery !== 'undefined') {
+        // Busca cada bloque de Galería Básica de Elementor en la página
+        jQuery('.elementor-widget-image-gallery').each(function(index) {
+            // Genera un ID único para cada proyecto
+            var uniqueGalleryId = 'galeria-proyecto-' + index;
+            
+            // Le asigna este ID único a todas las imágenes dentro de ese proyecto específico
+            jQuery(this).find('a').attr('data-elementor-lightbox-slideshow', uniqueGalleryId);
+        });
+    }
+});
+</script>
